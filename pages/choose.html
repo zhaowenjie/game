@@ -28,7 +28,12 @@
         <div class="modal-content">
           <div class="modal-body">
             <div class="center">
-              <img src="/imgs/icon2.png" width="auto" height="90px" alt="" />
+              <img
+                src="./../imgs/icon2.png"
+                width="auto"
+                height="90px"
+                alt=""
+              />
             </div>
             <p class="error-count">哎呀，错了<span id="errorCount"></span>张</p>
             <p>再接再厉哦~</p>
@@ -43,7 +48,12 @@
         <div class="modal-content">
           <div class="modal-body">
             <div class="center">
-              <img src="/imgs/icon2.png" width="auto" height="90px" alt="" />
+              <img
+                src="./../imgs/icon2.png"
+                width="auto"
+                height="90px"
+                alt=""
+              />
             </div>
             <p class="error-count">全部回答正确</p>
             <p>真是天赋异禀啊~</p>
@@ -70,13 +80,13 @@
           html += `<div class="item">
             <div class="low hide">
               <div class="icon">
-                <img src="/imgs/icon/icon-success.png" width="auto" height="40px" alt="" />
+                <img src="./../imgs/icon/icon-success.png" width="auto" height="40px" alt="" />
               </div>
               <div>低热量</div>
             </div>
             <div class="high hide">
               <div class="icon">
-                <img src="/imgs/icon/icon-error.png" width="auto" height="40px" alt="" />
+                <img src="./../imgs/icon/icon-error.png" width="auto" height="40px" alt="" />
               </div>
               <div>高热量</div>
             </div>
@@ -103,7 +113,7 @@
           if (tag) {
             lowCount++;
           }
-          return "/imgs/db/" + (tag ? "low" : "high") + "/" + item + ".jpg";
+          return "./../imgs/db/" + (tag ? "low" : "high") + "/" + item + ".jpg";
         });
       }
       function bindEvent() {
