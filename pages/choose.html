@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>翻转卡片</title>
+    <link href="./choose.css" rel="stylesheet" />
+    <link
+      href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="page">
+      <div class="title">
+        <p>翻出下列</p>
+        <p><span>低热量</span>食物</p>
+      </div>
+      <div class="items" id="items"></div>
+      <div class="clearfix"></div>
+      <div class="submit-btn" id="btn">完成</div>
+    </div>
+    <div id="errorModal" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="center">
+              <img src="/imgs/icon2.png" width="auto" height="90px" alt="" />
+            </div>
+            <p class="error-count">哎呀，错了<span id="errorCount"></span>张</p>
+            <p>再接再厉哦~</p>
+            <div class="error-btn">继续挑战</div>
+            <p>再玩一遍</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="successModal" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="center">
+              <img src="/imgs/icon2.png" width="auto" height="90px" alt="" />
+            </div>
+            <p class="error-count">全部回答正确</p>
+            <p>真是天赋异禀啊~</p>
+            <div class="success-btn">继续挑战</div>
+            <p>再玩一遍</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    $(function() {
+      var lowCount = 0;
+      // 初始化
+      function init() {
+        insertImg();
+        bindEvent();
+        console.warn("init");
+      }
+      function insertImg() {
+        let arr = getList();
+        let html = "";
+        for (var i = 0; i < arr.length; i++) {
+          html += `<div class="item">
+            <div class="low hide">
+              <div class="icon">
+                <img src="/imgs/icon/icon-success.png" width="auto" height="40px" alt="" />
+              </div>
+              <div>低热量</div>
+            </div>
+            <div class="high hide">
+              <div class="icon">
+                <img src="/imgs/icon/icon-error.png" width="auto" height="40px" alt="" />
+              </div>
+              <div>高热量</div>
+            </div>
+            <img class="foodImg" src="${arr[i]}" width="100%" height="100%" alt="" />
+          </div>`;
+        }
+        $("#items").html(html);
+      }
+      function getList() {
+        var arr = [];
+        var count = 6;
+        for (var i = 0; i < count; i++) {
+          var num = Math.ceil(Math.random() * 24);
+          if (arr.indexOf(num) === -1) {
+            arr.push(num);
+          } else {
+            count++;
+          }
+        }
+        lowCount = 0;
+
+        return arr.map(function(item) {
+          let tag = Math.ceil(Math.random() * 2) === 1;
+          if (tag) {
+            lowCount++;
+          }
+          return "/imgs/db/" + (tag ? "low" : "high") + "/" + item + ".jpg";
+        });
+      }
+      function bindEvent() {
+        $("#items").on("click", ".item", function(e) {
+          let src = $(this)
+            .find(".foodImg")
+            .prop("src");
+          console.warn(src);
+          if (src.indexOf("low") > -1) {
+            $(this)
+              .find(".low")
+              .removeClass("hide");
+          } else {
+            $(this)
+              .find(".high")
+              .removeClass("hide");
+          }
+        });
+        // 提交按钮
+        $("#btn").click(function() {
+          // 选错的高能量数目
+          var highErrorCount = $(".high").length - $(".high.hide").length;
+          var lowChooseCount = $(".low").length - $(".low.hide").length;
+          // 未选出的低能量食物
+          var lowErrorCount = lowCount - lowChooseCount;
+          var errorCount = highErrorCount + lowErrorCount;
+          if (errorCount === 0) {
+            $("#successModal").modal("show");
+          } else {
+            $("#errorCount").html(errorCount);
+            $("#errorModal").modal("show");
+          }
+        });
+
+        $("#errorModal").click(function() {
+          insertImg();
+          $("#errorModal").modal("hide");
+        });
+        $("#successModal").click(function() {
+          insertImg();
+          $("#successModal").modal("hide");
+        });
+      }
+      init();
+    });
+  </script>
+</html>
