@@ -17,7 +17,7 @@
   font-size: 20px;
   padding-left: 55%;
   padding-top: 20px;
-  background-image: url("/imgs/icon2.png");
+  background-image: url("./../imgs/icon2.png");
   background-repeat: no-repeat;
   background-position: 10% center;
   background-size: auto 80%;
