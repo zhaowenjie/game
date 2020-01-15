@@ -5,17 +5,186 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>分类投食</title>
+    <link
+      href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <link href="./feed.css" rel="stylesheet" />
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
   </head>
-  <body>
-    <div class="tip-top">
-      <img src="/imgs/tip-top.png" alt="" height="100%" />
+  <body class="page">
+    <div class="title-top">
+      <img src="/imgs/tip-top.png" alt="" height="17px" />
     </div>
-    <div class="tip">
-      <div class="tip-content">拖拽食物 给两位战士进行投食</div>
+    <div class="title">
+      <div class="title-content">拖拽食物 给两位战士进行投食</div>
     </div>
-    <div class="tip-foot">
-      <img src="/imgs/tip-bottom.png" alt="" height="100%" />
+    <div class="title-foot">
+      <img src="/imgs/tip-bottom.png" alt="" height="15px" />
+    </div>
+    <div class="high">
+      <p>我爱<span>高</span>糖<span>高</span>脂<span>高</span>热量</p>
+    </div>
+    <div class="food">
+      <img
+        ontouchstart="touchStart(event)"
+        ontouchmove="touchMove(event)"
+        ontouchend="touchEnd(event)"
+        id="foodImg"
+        src="/imgs/db/high/1.jpg"
+        height="100%"
+        alt=""
+      />
+    </div>
+    <div class="low">
+      <p>我爱<span>低</span>糖<span>低</span>脂<span>低</span>热量</p>
+    </div>
+    <!-- modal -->
+    <div id="errorModal" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="center">
+              <img
+                src="./../imgs/icon2.png"
+                width="auto"
+                height="90px"
+                alt=""
+              />
+            </div>
+            <p class="error-count">哎呀，错了<span id="errorCount"></span>张</p>
+            <p>再接再厉哦~</p>
+            <div class="error-btn">继续挑战</div>
+            <p>再玩一遍</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="successModal" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="center">
+              <img
+                src="./../imgs/icon2.png"
+                width="auto"
+                height="90px"
+                alt=""
+              />
+            </div>
+            <p class="error-count">全部回答正确</p>
+            <p>真是天赋异禀啊~</p>
+            <div class="success-btn">继续挑战</div>
+            <p>再玩一遍</p>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
+  <script>
+    var food = {
+      count: 0,
+      errorCount: 0,
+      source: {
+        client: {
+          x: 0,
+          y: 0
+        }
+      },
+      y: 0,
+      minValue: -175,
+      maxValue: 160
+    };
+    function touchStart(e) {
+      let element = e.targetTouches[0]; // 记录初始 client 位置，用于计算移动距离
+      food.source.client = {
+        x: element.clientX,
+        y: element.clientY
+      };
+    }
+    function touchMove(e) {
+      let element = e.targetTouches[0];
+      // 根据初始 client 位置计算移动距离
+      let x = element.clientX - food.source.client.x;
+      let y = element.clientY - food.source.client.y;
+      // 移动当前元素
+      element.target.style.cssText = `transform: translate(${x}px, ${y}px);opacity: 0.8;`;
+      food.y = y;
+      if (y < food.minValue) {
+        $(".high").addClass("active");
+      } else {
+        $(".high").removeClass("active");
+      }
+      if (y > food.maxValue) {
+        $(".low").addClass("active");
+      } else {
+        $(".low").removeClass("active");
+      }
+    }
+    function count(success) {
+      food.count++;
+      getImg();
+      if (success) {
+      } else {
+        food.errorCount++;
+      }
+      if (food.count === 6) {
+        console.warn("结束啦", food.errorCount);
+        if (food.errorCount > 0) {
+          $("#errorCount").html(food.errorCount);
+          $("#errorModal").modal("show");
+        } else {
+          $("#successModal").modal("show");
+        }
+        // 清0
+        food.count = 0;
+        food.errorCount = 0;
+      }
+    }
+    function touchEnd(e) {
+      let src = $("#foodImg").attr("src");
+      if (food.y < food.minValue) {
+        // 高
+        count(src.indexOf("high") > -1);
+      } else if (food.y > food.maxValue) {
+        // 低
+        count(src.indexOf("low") > -1);
+      }
+      // 拖拽结束
+      food.source.client = {
+        x: 0,
+        y: 0
+      };
+      // 清除拖拽样式
+      e.target.style.cssText = `transform: none;opacity: 1;`;
+      $(".high").removeClass("active");
+      $(".low").removeClass("active");
+    }
+    function getImg() {
+      var num = Math.ceil(Math.random() * 24);
+      var tag = Math.ceil(Math.random() * 2) === 1;
+      var imgSrc =
+        "./../imgs/db/" + (tag ? "low" : "high") + "/" + num + ".jpg";
+      $("#foodImg").attr("src", imgSrc);
+      return imgSrc;
+    }
+    $(function() {
+      function init() {
+        getImg();
+        bindEvent();
+      }
+
+      function bindEvent() {
+        $("#errorModal").click(function() {
+          $("#errorModal").modal("hide");
+        });
+        $("#successModal").click(function() {
+          $("#successModal").modal("hide");
+        });
+      }
+
+      init();
+    });
+  </script>
 </html>

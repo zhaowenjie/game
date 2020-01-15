@@ -5,13 +5,16 @@
  * @modify date 2020-01-07 15:15:44
  * @desc [description]
  */
-.tip {
+.page {
+  padding: 10px;
+}
+.title {
   padding: 3px;
   border: 1px rgba(252, 124, 124, 1) solid;
   border-radius: 8px;
   box-sizing: border-box;
 }
-.tip-content {
+.title-content {
   font-size: 20px;
   background-color: rgba(252, 124, 124, 1);
   height: 66px;
@@ -21,13 +24,112 @@
   text-align: center;
   border-radius: 8px;
 }
-.tip-foot {
+.title-foot {
   text-align: right;
   padding-right: 30px;
-  height: 15px;
+  line-height: 0;
 }
-.tip-top {
+.title-top {
   text-align: left;
   padding-left: 20px;
-  height: 17px;
+  line-height: 0;
 }
+/* 战士 */
+.high,
+.low {
+  box-sizing: content-box;
+  position: relative;
+  height: 120px;
+  /* border: 1px dashed #ccc; */
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+}
+.high {
+  background-image: url(/imgs/feed1.png);
+  padding-top: 35px;
+  background-position: right center;
+  border: 2px dashed #fff;
+}
+.high.active {
+  border: 2px dashed #5d97f9;
+}
+.low {
+  background-image: url(/imgs/feed2.png);
+  height: 140px;
+  border: 2px dashed #fff;
+}
+.low.active {
+  border: 2px dashed #fc7c7c;
+}
+.high p {
+  background-color: #5d97f9;
+  left: 2px;
+}
+.low p {
+  background-color: #fc7c7c;
+  right: 2px;
+  top: 30px;
+}
+.high p,
+.low p {
+  font-size: 16px;
+  color: #fff;
+  position: absolute;
+  border-radius: 8px;
+  padding: 20px;
+}
+.high p span,
+.low p span {
+  font-size: 20px;
+}
+/* food */
+.food {
+  height: 240px;
+  background-image: url(/imgs/bg.png);
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  text-align: center;
+  padding: 50px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+}
+#foodImg {
+  /* left: 0; */
+}
+/* **************************** */
+#errorModal .modal-dialog,
+#successModal .modal-dialog {
+  margin: 50px 30px 0;
+}
+#errorModal .modal-content,
+#successModal .modal-content {
+  background-color: rgba(252, 124, 124, 1);
+  color: #fff;
+  text-align: center;
+  font-size: 18px;
+  padding: 10px 0 20px;
+}
+#successModal .modal-content {
+  background-color: #47c899;
+}
+.error-count {
+  font-size: 24px;
+  margin: 30px 0;
+}
+.error-btn,
+.success-btn {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 20px;
+  text-align: center;
+  background-color: #fff;
+  color: rgba(252, 124, 124, 1);
+  margin: 30px 0 20px;
+}
+.success-btn {
+  color: #47c899;
+}
+/* **************************** */
