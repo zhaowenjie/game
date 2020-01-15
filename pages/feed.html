@@ -104,6 +104,7 @@
       };
     }
     function touchMove(e) {
+      event.preventDefault();
       let element = e.targetTouches[0];
       // 根据初始 client 位置计算移动距离
       let x = element.clientX - food.source.client.x;
