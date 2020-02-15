@@ -11,6 +11,7 @@
     />
     <link href="./jingjia.css" rel="stylesheet" />
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
   </head>
   <body>
     <div class="index-page">
@@ -19,28 +20,108 @@
         注意：有位匿名买家正在同时出价，如果您的出价大于或者等于对方的出价，则竞价成功，否则对方成功
       </div>
       <div class="imgs">
-        <img id="foodImg" src="./../imgs/db/high/1.jpg" height="400px" alt="" />
+        <img id="foodImg" src="" height="400px" alt="" />
       </div>
-      <div class="chujia">
+      <div class="chujia" id="chujia">
         <p class="center">选择你的出价</p>
-        <p class="center">双方出价范围在0-5元，每次出价是0.5元的倍数</p>
+        <p class="center">双方出价范围在0-10元，每次出价是2的倍数</p>
         <ul class="items row">
-          <li class="item col-3"><span>0元</span></li>
-          <li class="item col-3"><span>0.5元</span></li>
-          <li class="item col-3"><span>1元</span></li>
-          <li class="item col-3"><span>1.5元</span></li>
-          <li class="item col-3"><span>2</span></li>
-          <li class="item col-3"><span>2.5</span></li>
-          <li class="item col-3"><span>3</span></li>
-          <li class="item col-3"><span>3.5元</span></li>
-          <li class="item col-3"><span>4元</span></li>
-          <li class="item col-3"><span>4.5元</span></li>
-          <li class="item col-3"><span>5元</span></li>
+          <li class="item col-4" data-value="0"><span>0元</span></li>
+          <li class="item col-4" data-value="2"><span>2元</span></li>
+          <li class="item col-4" data-value="4"><span>4元</span></li>
+          <li class="item col-4" data-value="6"><span>6元</span></li>
+          <li class="item col-4" data-value="8"><span>8元</span></li>
+          <li class="item col-4" data-value="10"><span>10元</span></li>
         </ul>
+      </div>
+    </div>
+
+    <div id="successModal" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="center">
+              <img src="./imgs/success.png" width="auto" height="90px" alt="" />
+            </div>
+            <p class="result">恭喜您 竞价成功</p>
+            <p class="result">成功获得该事物</p>
+            <div class="chujia-info">
+              <p>对方出价：<span class="duifangValue"></span></p>
+              <p>您的出价：<span class="myValue"></span></p>
+            </div>
+            <div class="success-btn btn btn-primary" id="next">下一轮</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="failModal" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="center">
+              <img src="./imgs/fail.png" width="auto" height="90px" alt="" />
+            </div>
+            <p class="result">竞价失败</p>
+            <p class="result">对方获得该事物</p>
+            <div class="chujia-info">
+              <p>对方出价：<span class="duifangValue"></span></p>
+              <p>您的出价：<span class="myValue"></span></p>
+            </div>
+            <div class="fail-btn btn btn-primary" id="failBtn">下一轮</div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
   <script>
-    $(function() {});
+    function getImg() {
+      var num = Math.ceil(Math.random() * 24);
+      var tag = Math.ceil(Math.random() * 2) === 1;
+      var imgSrc =
+        "./../imgs/db/" + (tag ? "low" : "high") + "/" + num + ".jpg";
+      $("#foodImg").attr("src", imgSrc);
+      return imgSrc;
+    }
+    $(function() {
+      function init() {
+        getImg();
+        bindEvent();
+      }
+      function chujia(e) {
+        var imgLink = $("#foodImg").attr("src");
+        // 出价成功率 1/6
+        var a = Math.floor(Math.random() * 6) * 2;
+        $(".myValue").html(e.attr("data-value") + "元");
+        $(".duifangValue").html(a + "元");
+        if (e.attr("data-value") == a) {
+          $("#successModal").modal("show");
+        } else {
+          $("#failModal").modal("show");
+        }
+      }
+      function bindEvent() {
+        $("#foodImg").click(function() {
+          var imgLink = $("#foodImg").attr("src");
+        });
+        $("#chujia").on("click", ".item", function() {
+          chujia($(this));
+        });
+        $("#next").click(function() {
+          $("#successModal").modal("hide");
+        });
+        $("#failBtn").click(function() {
+          $("#failModal").modal("hide");
+        });
+        $("#successModal").on("hidden.bs.modal", function(e) {
+          // do something...
+          getImg();
+        });
+        $("#failModal").on("hidden.bs.modal", function(e) {
+          // do something...
+          getImg();
+        });
+      }
+      init();
+    });
   </script>
 </html>

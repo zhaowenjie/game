@@ -30,13 +30,40 @@
   float: left;
   list-style: none;
   margin: 10px 0;
-  padding: 0 10px;
+  padding: 0 30px;
   text-align: center;
 }
 .item span {
-  background-color: #ccc;
+  background-color: #eaeaea;
   width: 100%;
   display: inline-block;
   height: 50px;
   line-height: 50px;
+}
+
+#successModal,
+#failModal {
+  text-align: center;
+  padding-top: 20px;
+}
+.result {
+  color: #0bcbbe;
+  font-size: 40px;
+  margin: 10px;
+}
+#failModal .result {
+  color: #f82848;
+}
+.chujia-info {
+  margin: 50px;
+  line-height: 30px;
+  font-size: 30px;
+}
+.success-btn,
+.fail-btn {
+  width: 80%;
+  margin-bottom: 30px;
+  line-height: 80px;
+  font-size: 40px;
+  border-radius: 20px;
 }
