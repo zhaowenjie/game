@@ -19,6 +19,10 @@
 }
 .imgs {
   text-align: center;
+  width: 100%;
+}
+#foodImg {
+  max-width: 80%;
 }
 .center {
   text-align: center;
