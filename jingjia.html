@@ -77,8 +77,7 @@
     function getImg() {
       var num = Math.ceil(Math.random() * 20);
       var tag = Math.ceil(Math.random() * 2) === 1;
-      var imgSrc =
-        "./../imgs/db/" + (tag ? "low" : "high") + "/" + num + ".jpg";
+      var imgSrc = "./imgs/db/" + (tag ? "low" : "high") + "/" + num + ".jpg";
       $("#foodImg").attr("src", imgSrc);
       return imgSrc;
     }
