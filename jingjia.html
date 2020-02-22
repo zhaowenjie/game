@@ -101,6 +101,14 @@
         var a = Math.floor(Math.random() * 6) * 2;
         $(".myValue").html(e.attr("data-value") + "元");
         $(".duifangValue").html(a + "元");
+        // 统计数据
+        _hmt.push([
+          "_trackEvent",
+          "竞价",
+          "提交",
+          "参数",
+          "a" + "|" + 'e.attr("data-value")'
+        ]);
         if (e.attr("data-value") == a) {
           $("#successModal").modal("show");
         } else {
