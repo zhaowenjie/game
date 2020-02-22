@@ -53,8 +53,8 @@
                 alt=""
               />
             </div>
-            <p class="error-count">哎呀，错了<span id="errorCount"></span>张</p>
-            <p>再接再厉哦~</p>
+            <!-- <p class="error-count">哎呀，错了<span id="errorCount"></span>张</p> -->
+            <p>喂错啦，战士有点不开心！</p>
             <div class="error-btn">继续挑战</div>
             <p>再玩一遍</p>
           </div>
@@ -73,8 +73,8 @@
                 alt=""
               />
             </div>
-            <p class="error-count">全部回答正确</p>
-            <p>真是天赋异禀啊~</p>
+            <p class="error-count">成功喂食，你真优秀！</p>
+            <!-- <p>真是天赋异禀啊~</p> -->
             <div class="success-btn">继续挑战</div>
             <p>再玩一遍</p>
           </div>
@@ -130,10 +130,10 @@
       } else {
         food.errorCount++;
       }
-      if (food.count === 6) {
+      if (food.count === 1) {
         console.warn("结束啦", food.errorCount);
         if (food.errorCount > 0) {
-          $("#errorCount").html(food.errorCount);
+          // $("#errorCount").html(food.errorCount);
           $("#errorModal").modal("show");
         } else {
           $("#successModal").modal("show");
