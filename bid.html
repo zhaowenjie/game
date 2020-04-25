@@ -108,7 +108,9 @@
           "提交",
           a + "|" + e.attr("data-value")
         ]);
-        if (e.attr("data-value") == a) {
+        console.warn(e.attr("data-value"))
+        console.warn(a)
+        if (Number(e.attr("data-value")) >= a) {
           $("#successModal").modal("show");
         } else {
           $("#failModal").modal("show");
